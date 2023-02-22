@@ -1,0 +1,26 @@
+
+/* global classes */
+
+.half{
+  width: 50%;
+}
+
+
+/* Boot strap over-rides: */
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #009ba0;
+}
+
+
+/* form styling */
+.form-buttons {
+    display: flex;
+    margin: 1rem 0rem;
+    justify-content: space-between;
+}
+
+.chkBoxes {
+    margin: 1rem 0rem;
+    display: flex;
+    justify-content: space-evenly;
+}
