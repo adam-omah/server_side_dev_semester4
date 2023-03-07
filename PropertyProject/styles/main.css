@@ -24,3 +24,9 @@
     display: flex;
     justify-content: space-evenly;
 }
+.hidden {
+  display: none !important;
+}
+.showBlock {
+  display: block;
+}
