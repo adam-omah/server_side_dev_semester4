@@ -6,14 +6,15 @@
 
     <?php
     // need to move this to own file when polishing.
+    $parentPage = "addProperty.php";
 
     $chkGarden = "unchecked";
     $chkPets = "unchecked";
     $chkOwnerO = "unchecked";
 
-    $hideOwnersForm = "";
+    $isValidSurname = "";
 
-    if (isset($_POST['newProp'])) {
+    if (isset($_POST['newForm'])) {
       // Reset the Form and post data if starting new property.
       unset($_POST);
     }
@@ -58,9 +59,18 @@
         <div class="col-6 ">
             <?php
             if (isset($_POST['findOwner'])) {
-
+              if (strlen($_POST['ownerSurname'])  > 40 || $_POST['ownerSurname'] == '' ) {
+                // invalid owner surname, still include find owners.
+                $isValidSurname = "is-invalid";
+                include 'includes/findOwners.inc';
+              }else{
+                // if valid surname searched.
+                include 'includes/selectOwner.inc';
+              }
+            }elseif (isset($_POST['selectOwner'])) {
               include 'includes/mainPropForm.inc';
-            }else {
+            }
+            else{
               include 'includes/findOwners.inc';
             }
            ?>

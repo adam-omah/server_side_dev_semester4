@@ -30,3 +30,9 @@
 .showBlock {
   display: block;
 }
+
+/* Sucess Sections */
+.sucess-sections h2 {
+    margin: 4rem !important;
+    text-align: center;
+}

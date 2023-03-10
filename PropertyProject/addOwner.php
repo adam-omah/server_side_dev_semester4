@@ -8,13 +8,23 @@
     $firstName ="";
     $lastName ="";
     $phone = "";
+    $email = "";
     $eircode ="";
+
 
     $validFistName = false;
     $validLastName = false;
     $validEircode = false;
     $validPhone = false;
+    $validEmail =false;
 
+    $isValidFirst = "";
+    $isValidLast = "";
+    $isValidEircode = "";
+    $isValidPhone = "";
+    $isValidEmail ="";
+
+    $ownerAdded = false;
 
     // need to move this to own file when polishing.
     if (isset($_POST['newOwner'])) {
@@ -30,8 +40,10 @@
           // First Name not empty & max 30 chars.
           if (strlen($firstName) > 30 || $firstName =='' ) {
             // Highlight that is invalid.
+            $isValidFirst = "is-invalid";
           }else {
             $validFistName = true;
+            $isValidFirst = "is-valid";
           }
 
         }
@@ -42,8 +54,10 @@
           //last name not empty & max 40 chars.
           if (strlen($lastName) > 40 || $lastName =='') {
             // Highlight that is invalid.
+            $isValidLast = "is-invalid";
           }else {
             $validLastName = true;
+            $isValidLast = "is-valid";
           }
 
         }
@@ -53,10 +67,12 @@
           // set variable Phone to post
           $phone = $_POST['phone'];
           // phone is valid number & < 15 chars long.
-          if (strlen($phone) > 40 || $phone =='') {
-            // Highlight that is invalid.
+          if (strlen($phone) > 15 || $phone =='') {
+            // Highlight that is invalid.#
+            $isValidPhone = "is-invalid";
           }else {
             $validPhone = true;
+            $isValidPhone = "is-valid";
           }
         }
 
@@ -66,37 +82,51 @@
           // valid Eircode & 7 chars long.
           if (strlen($eircode) != 7) {
             // Highlight that is invalid.
+            $isValidEircode = "is-invalid";
           }else {
             $validEircode = true;
+            $isValidEircode = "is-valid";
           }
+        }
 
+        if(isset($_POST['email'])){
+          // set variable Phone to post
+          $email = $_POST['email'];
+          // phone is valid number & < 15 chars long.
+          if (strlen($email) > 50 || $email =='') {
+            // Highlight that is invalid.#
+            $isValidEmail = "is-invalid";
+          }else {
+            $validEmail = true;
+            $isValidEmail = "is-valid";
+          }
         }
 
         // if all valid add to owners.
-        if($validFistName && $validLastName && $validPhone && $validEircode){
+        if($validFistName && $validLastName && $validPhone && $validEircode && $validEmail){
           // add to owners.
           try{
             $pdo = new PDO('mysql:host=localhost;dbname=propertyrental; charset=utf8', 'root', '');
 
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $sql = "INSERT INTO Owners (firstName,lastName,phone,eircode) VALUES(:fname, :lname, :phn ,:eir )";
+            $sql = "INSERT INTO Owners (firstName,lastName,phone,email,eircode) VALUES(:fname, :lname,:phn, :eml ,:eir )";
 
             $stmt = $pdo->prepare($sql);
 
             $stmt->bindValue(':fname', $firstName);
             $stmt->bindValue(':lname', $lastName);
             $stmt->bindValue(':phn', $phone);
+            $stmt->bindValue(':eml', $email);
             $stmt->bindValue(':eir', $eircode);
 
             $stmt->execute();
 
+            // reset everything, change to sucess window
             unset($_POST);
-            $firstName ="";
-            $lastName ="";
-            $phone = "";
-            $eircode ="";
-            echo "<script>alert('The Owner has been successfully added,<br>The form will be reset and you can add another.');</script>";
+
+            $ownerAdded = true;
+
           }
           catch (PDOException $e) {
 
@@ -123,36 +153,12 @@
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-6 ">
-          <form class="" action="addOwner.php" method="post">
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="firstName" class="form-label mt-2">First Name: </label>
-                  <input type="text" class="form-control form-control-sm" name="firstName" value="<?php echo $firstName; ?>">
-                </div>
-
-                <div class="col-md-6">
-                  <label for="lastName" class="form-label mt-2">Last Name:</label>
-                  <input type="text" class="form-control form-control-sm" name="lastName" value="<?php echo $lastName; ?>">
-                </div>
-
-
-                <div class="col-md-6">
-                  <label for="eircode" class="form-label mt-2">Eircode:</label>
-                  <input type="text" class="form-control form-control-sm form-control-sm" name="eircode" value="<?php echo $eircode; ?>">
-                </div>
-
-
-                <div class="col-md-6">
-                  <label for="phone" class="form-label mt-2">Phone Number:</label>
-                  <input type="text" class="form-control form-control-sm" name="phone" value="<?php echo $phone; ?>">
-                </div>
-
-              </div>
-
-              <div class="form-buttons">
-                <input class="btn btn-primary" type="submit" name="newOwner" value="Start New Owner Form"><input class="btn btn-primary" type="submit" name="addOwner" value="Add Owner">
-              </div>
-          </form>
+          <?php
+          if ($ownerAdded) {
+            include 'includes/addOwnerSuccess.inc';
+          }else{
+            include 'includes/addOwnerForm.inc';
+          } ?>
         </div>
       </div>
     </div>
