@@ -27,7 +27,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Owners</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="addOwner.php">Add Owner</a>
-              <a class="dropdown-item" href="#">Update Owner</a>
+              <a class="dropdown-item" href="updateOwner.php">Update Owner</a>
             </div>
           </li>
 

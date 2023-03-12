@@ -7,6 +7,7 @@
     <?php
     // need to move this to own file when polishing.
     $parentPage = "addProperty.php";
+    $ownerID = "";
 
     $chkGarden = "unchecked";
     $chkPets = "unchecked";
@@ -19,7 +20,13 @@
       unset($_POST);
     }
 
+    if (isset($_POST['selectOwner'])) {
+      if (isset($_POST['ownerID'])) {
+        $ownerID = $_POST['ownerID'];
+      }
+    }
 
+    // property form php
     if(isset($_POST['addProp'])){
       if(isset($_POST['pets'])){
         if ($_POST['pets'] = "pets") {
@@ -68,7 +75,7 @@
                 include 'includes/selectOwner.inc';
               }
             }elseif (isset($_POST['selectOwner'])) {
-              include 'includes/mainPropForm.inc';
+              include 'includes/forms/mainPropForm.inc';
             }
             else{
               include 'includes/findOwners.inc';

@@ -5,6 +5,13 @@
 
 
     <?php
+    $parentPage = "updateOwner.php";
+
+    $ownerStatusASelected = "";
+    $ownerStatusISelected = "";
+
+    $ownerID = "";
+
     $firstName ="";
     $lastName ="";
     $phone = "";
@@ -27,11 +34,12 @@
     $ownerAdded = false;
 
     // need to move this to own file when polishing.
-    if (isset($_POST['newOwner'])) {
+    if (isset($_POST['newForm'])) {
       // Reset the Form and post data if starting new property.
       unset($_POST);
     }
-    if(isset($_POST['addOwner'])){
+
+    if(isset($_POST['updateOwner'])){
       // Validate that Onwer fields.
 
         if(isset($_POST['firstName'])){
@@ -127,6 +135,7 @@
 
             $ownerAdded = true;
 
+
           }
           catch (PDOException $e) {
 
@@ -137,6 +146,49 @@
             }
 
         }
+    }
+
+    // if owner is selected load them into the form.
+    if(isset($_POST['selectOwner'])){
+      if (isset($_POST['ownerID'])) {
+        $ownerID = $_POST['ownerID'];
+        try {
+          // try make a connection, to search for the owner.
+        $pdo = new PDO('mysql:host=localhost;dbname=propertyrental; charset=utf8', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM owners where ownerID = '$ownerID'";
+        $result = $pdo->query($sql);
+
+        if ($result->rowCount() == 0) {
+          echo "<h5 class ='mt-4'> Sorry no Owners with matching ID found, please Start form again. </h5>";
+        }else{
+          $row = $result->fetch();
+
+          $ownerStatus = substr($row['status'], 0, 1);
+          if($ownerStatus == "A"){
+            $ownerStatusASelected = "selected";
+          }else if ($ownerStatus == "I") {
+            $ownerStatusISelected = "selected";
+          }
+
+
+
+
+
+          $ownerID = $row['ownerID'];
+
+          $firstName = $row['firstName'];
+          $lastName = $row['lastName'];
+          $phone = $row['phone'];
+          $email = $row['email'];
+          $eircode = $row['eircode'];
+
+        }
+        } catch (\Exception $e) {
+
+        }
+
+      }
     }
 
      ?>
@@ -154,11 +206,29 @@
       <div class="row justify-content-center">
         <div class="col-6 ">
           <?php
-          if ($ownerAdded) {
-            include 'includes/forms/addOwnerSuccess.inc';
-          }else{
-            include 'includes/forms/addOwnerForm.inc';
-          } ?>
+          if (isset($_POST['findOwner'])) {
+            if (strlen($_POST['ownerSurname'])  > 40 || $_POST['ownerSurname'] == '' ) {
+              // invalid owner surname, still include find owners.
+              $isValidSurname = "is-invalid";
+              include 'includes/findOwners.inc';
+            }else{
+              // if valid surname searched.
+              include 'includes/selectOwner.inc';
+            }
+          }else if (isset($_POST['selectOwner'])) {
+            if (isset($_POST['ownerID'])) {
+              include 'includes/forms/updateOwnerForm.inc';
+            }else {
+              // invalid owner ID, go back to find owner.
+              $isValidSurname = "is-invalid";
+              include 'includes/findOwners.inc';
+            }
+
+          }
+          else{
+            include 'includes/findOwners.inc';
+          }
+         ?>
         </div>
       </div>
     </div>
