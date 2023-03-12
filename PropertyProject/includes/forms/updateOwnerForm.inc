@@ -2,11 +2,13 @@
     <div class="form-group row">
       <div class="col-md-6">
         <label for="ownerID" class="form-label mt-2">Owner ID: </label>
-        <input type="text" class="form-control form-control-sm" name="ownerID" value="<?php echo $ownerID ?>" disabled="">
+        <input type="text" class="form-control form-control-sm <?php echo $isValidID; ?>" name="ownerID" value="<?php echo $ownerID ?>" readonly="readonly">
+        <!-- technically there should be no way to active this but putting in anyway -->
+        <div class="invalid-feedback">Sorry, ID is invalid, please search again for an owner.</div>
       </div>
       <div class="col-md-6">
         <label for="ownerStatus" class="form-label mt-2">Owner Status: </label>
-        <select class="form-select" id="ownerStatus">
+        <select class="form-select form-select-sm<?php echo $isValidStatus; ?>" name="ownerStatus" id="ownerStatus">
         <option value="A" <?php echo $ownerStatusASelected ?>>A - Active</option>
         <option value="I" <?php echo $ownerStatusISelected ?>>I - Inactive</option>
       </select>
