@@ -10,3 +10,5 @@
 
 <!-- My Own style sheets + overrides to bootstrap style. -->
 <link rel="stylesheet" href="styles/main.css">
+
+<?php include 'includes/code/functions.php'; ?>

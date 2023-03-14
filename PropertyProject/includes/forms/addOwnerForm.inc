@@ -23,7 +23,7 @@
       <div class="col-md-6">
         <label for="phone" class="form-label mt-2">Phone Number:</label>
         <input type="text" class="form-control form-control-sm <?php echo $isValidPhone; ?>" name="phone" value="<?php echo $phone; ?>">
-        <div class="invalid-feedback">Sorry, invalid Phone Number!</div>
+        <div class="invalid-feedback">Invalid Phone Number! Numbers Allowed only!</div>
       </div>
       <div class="col-md-12">
         <label for="email" class="form-label mt-2">Email Address:</label>

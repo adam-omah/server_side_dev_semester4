@@ -3,7 +3,7 @@
       <div class="form-group row">
         <div class="col-md-6">
           <label for="ownerID" class="form-label mt-2">Owner ID: </label>
-          <input type="text" class="form-control form-control-sm" name="ownerID" value="<?php echo $ownerID ?>" disabled="">
+          <input type="text" class="form-control form-control-sm" name="ownerID" value="<?php echo $ownerID ?>" readonly="readonly">
         </div>
 
         <div class="col-md-6">

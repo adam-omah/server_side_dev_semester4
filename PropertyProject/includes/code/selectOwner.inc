@@ -1,4 +1,4 @@
-<div class="find-owner-form">
+<div class="select-owner-form">
   <!-- this $parentPage allows the re-use of the find owner function. -->
   <form class="" action="<?php echo $parentPage; ?>" method="post">
     <div class="form-group row">

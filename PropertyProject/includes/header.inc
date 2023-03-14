@@ -28,6 +28,7 @@
             <div class="dropdown-menu">
               <a class="dropdown-item" href="addOwner.php">Add Owner</a>
               <a class="dropdown-item" href="updateOwner.php">Update Owner</a>
+              <a class="dropdown-item" href="removeOwner.php">Remove Owner</a>
             </div>
           </li>
 
