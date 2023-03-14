@@ -31,7 +31,7 @@ CREATE TABLE `owners` (
   `eircode` char(7) NOT NULL,
   `status` char(1) NOT NULL DEFAULT 'A',
   PRIMARY KEY (`ownerID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `owners` (
 
 LOCK TABLES `owners` WRITE;
 /*!40000 ALTER TABLE `owners` DISABLE KEYS */;
+INSERT INTO `owners` VALUES (1,'Adam','O\'Mahony','555555555','adamtest@gmail.com','v92cccc','A'),(2,'Adam','O','0555555555555','adam@test.com','v92aaaa','A');
 /*!40000 ALTER TABLE `owners` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,4 +200,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-14 17:01:22
+-- Dump completed on 2023-03-14 17:06:53
