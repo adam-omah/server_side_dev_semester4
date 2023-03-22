@@ -9,9 +9,9 @@
       <div class="col-md-6">
         <label for="ownerStatus" class="form-label mt-2">Owner Status: </label>
         <select class="form-select form-select-sm<?php echo $isValidStatus; ?>" name="ownerStatus" id="ownerStatus">
-        <option value="A" <?php echo $ownerStatusASelected ?>>A - Active</option>
-        <option value="I" <?php echo $ownerStatusISelected ?>>I - Inactive</option>
-      </select>
+          <option value="A" <?php echo $ownerStatusASelected ?>>A - Active</option>
+          <option value="I" <?php echo $ownerStatusISelected ?>>I - Inactive</option>
+        </select>
       </div>
 
       <div class="col-md-6">
@@ -37,7 +37,7 @@
       <div class="col-md-6">
         <label for="phone" class="form-label mt-2">Phone Number:</label>
         <input type="text" class="form-control form-control-sm <?php echo $isValidPhone; ?>" name="phone" value="<?php echo $phone; ?>">
-        <div class="invalid-feedback">Invalid Phone Number! Numbers Allowed only!</</div>
+        <div class="invalid-feedback">Invalid Phone Number! Numbers Allowed only!</div>
       </div>
 
       <div class="col-md-12">

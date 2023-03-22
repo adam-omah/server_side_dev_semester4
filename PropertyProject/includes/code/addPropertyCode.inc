@@ -2,6 +2,11 @@
 // need to move this to own file when polishing.
 $parentPage = "addProperty.php";
 $ownerID = "";
+$eircode ="";
+$town = "";
+$typeSelected = "";
+
+
 
 $chkGarden = "unchecked";
 $chkPets = "unchecked";
@@ -22,6 +27,7 @@ if (isset($_POST['selectOwner'])) {
 
 // property form php
 if(isset($_POST['addProp'])){
+  // Check boxes dont need validation, but need to remember the vlaues if somethign else is invalid.
   if(isset($_POST['pets'])){
     if ($_POST['pets'] = "pets") {
       $chkPets = "checked";
@@ -39,9 +45,21 @@ if(isset($_POST['addProp'])){
   }
 
 
+  // if all valid:
+  if (condition) {
+    // check if property already exists.
+    $sql = "SELECT * FROM properties where eircode = '$eircode'";
+    $result = $pdo->query($sql);
+    if ($result->rowCount() == 0) {
+      $hideSelect = "d-none";
+      echo "<h5 class ='mt-4'> Sorry no Owners with matching surname found, please search another surname </h5>";
 
+    }else{
+      // Eircode alread exists, show this to the user.
+    }
+  }
 }else{
 
-}
+  }
 
  ?>

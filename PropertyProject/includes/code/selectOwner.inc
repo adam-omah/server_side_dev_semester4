@@ -25,7 +25,6 @@
         while ($row = $result->fetch()) {
         $ownID = $row['ownerID'];
         $owners = "$row[ownerID] , $row[firstName] $row[lastName] , $row[phone]";
-        $ownersCount++;
         ?>
 
         <option value="<?php echo $ownID; ?>">
@@ -42,6 +41,7 @@
         }
         catch (PDOException $e) {
         $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+        echo "$output";
         }
 
        ?>
