@@ -25,4 +25,17 @@ function isValidEircode($eircode)
     return false;
   }
 }
+
+function isValidEmail($email)
+{
+  $emailPatern = "/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i";
+  $result = preg_match($emailPatern, $email);
+
+  if ($result == 1) {
+    return true;
+  }else {
+    return false;
+  }
+}
+
  ?>

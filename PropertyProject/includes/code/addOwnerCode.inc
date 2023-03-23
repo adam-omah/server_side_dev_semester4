@@ -39,7 +39,6 @@ if(isset($_POST['addOwner'])){
         $validFistName = true;
         $isValidFirst = "is-valid";
       }
-
     }
 
     if(isset($_POST['lastName'])){
@@ -87,7 +86,7 @@ if(isset($_POST['addOwner'])){
       // set variable Phone to post
       $email = $_POST['email'];
       // phone is valid number & < 15 chars long.
-      if (strlen($email) > 50 || $email =='') {
+      if (strlen($email) > 50 || !isValidEmail($email)) {
         // Highlight that is invalid.#
         $isValidEmail = "is-invalid";
       }else {

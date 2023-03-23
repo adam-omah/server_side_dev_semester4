@@ -18,9 +18,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Properties</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="addProperty.php">Add Property</a>
-              <a class="dropdown-item" href="#">Update Property</a>
-              <a class="dropdown-item" href="#">Add Property Type</a>
-              <a class="dropdown-item" href="#">Update Property Type</a>
+              <a class="dropdown-item" href="#">Rent Property</a>
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -30,12 +28,6 @@
               <a class="dropdown-item" href="updateOwner.php">Update Owner</a>
               <a class="dropdown-item" href="removeOwner.php">Remove Owner</a>
             </div>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Record Payment
-              <span class="visually-hidden">(current)</span>
-            </a>
           </li>
         </ul>
     </div>
