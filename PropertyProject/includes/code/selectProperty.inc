@@ -16,7 +16,7 @@
         $result = $pdo->query($sql);
         if ($result->rowCount() == 0) {
           $hideSelect = "d-none";
-          echo "<h5 class ='mt-4'> Sorry no Properties with matching Town found, please search another surname </h5>";
+          echo "<h5 class ='mt-4'> Sorry no Properties with matching Town found, please search another Town</h5>";
 
         }else{
         echo "<label for='propertySelected'> Please Select a Property from the Properties found below: </label>";
@@ -24,10 +24,10 @@
 
         while ($row = $result->fetch()) {
         $propertyId = $row['eircode'];
-        $property = "$row[eircode] , beds: $row[bedrooms] , bathrooms: $row[bathrooms] , Monthly Rent: $row[rent]";
+        $property = "Eircode: $row[eircode] , beds: $row[bedrooms] , bathrooms: $row[bathrooms] , Monthly Rent: $row[rent], Parking Spaces: $row[parkingSpaces] ,Pets Allowed? $row[petsAllowed], Garden? $row[gardenspace], Owner Occupied? $row[ownerOccupied]";
         ?>
 
-        <option value="<?php echo $propertyId; ?>">
+        <option style="white-space: pre-wrap;" value="<?php echo $propertyId; ?>">
         <?php echo $property; ?>
 
         </option>

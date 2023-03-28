@@ -32,13 +32,13 @@
               }
             }else if (isset($_POST['selectProperty'])) {
               if (isset($_POST['propertySelected']) && isValidEircode($_POST['propertySelected'])) {
-                include 'includes/forms/updateOwnerForm.inc';
+                  include 'includes/forms/addTenantForm.inc';
               }else {
                 // invalid eircode found go back to town search.
                 include 'includes/code/findProperties.inc';
               }
-            }else if(isset($_POST['updateOwner'])){
-              include 'includes/forms/updateOwnerForm.inc';
+            }else if(isset($_POST['addTenant'])){
+              include 'includes/forms/rentPropertyForm.inc';
             }
             else{
               include 'includes/code/findProperties.inc';

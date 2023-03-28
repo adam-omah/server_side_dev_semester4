@@ -1,34 +1,33 @@
 <form class="" action="rentProperty.php" method="post">
     <div class="form-group row">
-      <div class="col-md-6">
-        <label for="firstName" class="form-label mt-2">First Name: </label>
-        <input type="text" class="form-control form-control-sm <?php echo $isValidFirst; ?>" name="firstName" value="<?php echo $firstName; ?>">
-        <div class="invalid-feedback">Sorry, First Name cannot be empty</div>
+      <div class="sub-heading-form-group">
+        <h3 class="mt-4" >Rental Details:</h3>
       </div>
 
       <div class="col-md-6">
-        <label for="lastName" class="form-label mt-2 ">Last Name:</label>
-        <input type="text" class="form-control form-control-sm <?php echo $isValidLast; ?>" name="lastName" value="<?php echo $lastName; ?>">
-        <div class="invalid-feedback">Sorry, Last Name cannot be empty</div>
+        <label for="tenantID" class="form-label mt-2">Tenant ID: </label>
+        <input type="text" class="form-control form-control-sm <?php echo $isValidID; ?>" name="tenantID" value="<?php echo $tenantID ?>" readonly="readonly">
+        <!-- technically there should be no way to active this but putting in anyway -->
+        <div class="invalid-feedback">Sorry, Tenant ID is invalid, add the tenant again.</div>
       </div>
-
 
       <div class="col-md-6">
-        <label for="eircode" class="form-label mt-2">Eircode:</label>
-        <input type="text" class="form-control form-control-sm form-control-sm <?php echo $isValidEircode; ?>" name="eircode" value="<?php echo $eircode; ?>">
-        <div class="invalid-feedback">Sorry, invalid Eircode!</div>
+        <label for="eircode" class="form-label mt-2">Eircode: </label>
+        <input type="text" class="form-control form-control-sm <?php echo $isValidEircode; ?>" name="eircode" value="<?php echo $eircode ?>" readonly="readonly">
+        <!-- technically there should be no way to active this but putting in anyway -->
+        <div class="invalid-feedback">Sorry, eircode is invalid, please search again for a property.</div>
       </div>
-
 
       <div class="col-md-6">
-        <label for="phone" class="form-label mt-2">Phone Number:</label>
-        <input type="text" class="form-control form-control-sm <?php echo $isValidPhone; ?>" name="phone" value="<?php echo $phone; ?>">
-        <div class="invalid-feedback">Invalid Phone Number! Numbers Allowed only!</div>
+        <label for="startDate" class="form-label mt-2">Start Date: </label>
+        <input type="datetime-local" class="form-control form-control-sm <?php echo $isValidFirst; ?>" name="startDate" value="<?php echo $firstName; ?>">
+        <div class="invalid-feedback">Sorry, Start Date invalid!</div>
       </div>
-      <div class="col-md-12">
-        <label for="email" class="form-label mt-2">Email Address:</label>
-        <input type="text" class="form-control form-control-sm <?php echo $isValidEmail; ?>" name="email" value="<?php echo $email; ?>">
-        <div class="invalid-feedback">Sorry, invalid Email!</div>
+
+      <div class="col-md-6">
+        <label for="endDate" class="form-label mt-2 ">End Date:</label>
+        <input type="datetime-local" class="form-control form-control-sm <?php echo $isValidLast; ?>" name="endDate" value="<?php echo $lastName; ?>">
+        <div class="invalid-feedback">Sorry, End Date invalid!</div>
       </div>
 
     </div>

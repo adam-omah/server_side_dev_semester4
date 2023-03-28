@@ -31,6 +31,10 @@
   display: block;
 }
 
+option {
+    white-space: pre-wrap;
+}
+
 /* Sucess Sections */
 .sucess-sections h2 {
     margin: 4rem !important;

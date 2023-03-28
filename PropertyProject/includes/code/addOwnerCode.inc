@@ -123,12 +123,9 @@ if(isset($_POST['addOwner'])){
 
       }
       catch (PDOException $e) {
-
         echo "An error has occured, owner not added";
         echo "Values were : $firstName, $lastName, $phone, $email, $eircode";
-
-        }
-
+      }
     }
 }
 
