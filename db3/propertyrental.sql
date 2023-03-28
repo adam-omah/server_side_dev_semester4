@@ -57,12 +57,12 @@ CREATE TABLE `properties` (
   `address` varchar(100) NOT NULL,
   `description` varchar(200) NOT NULL,
   `rent` decimal(10,2) NOT NULL CHECK (`rent` > 0),
-  `bedrooms` tinyint(3) unsigned DEFAULT NULL CHECK (`bedrooms` > 0),
-  `bathrooms` tinyint(3) unsigned DEFAULT NULL CHECK (`bathrooms` > 0),
-  `parkingSpaces` tinyint(3) unsigned DEFAULT NULL CHECK (`parkingSpaces` >= 0),
-  `gardenSpace` tinyint(1) NOT NULL DEFAULT 0,
-  `petsAllowed` tinyint(1) NOT NULL DEFAULT 0,
-  `ownerOccupied` tinyint(1) NOT NULL DEFAULT 0,
+  `bedrooms` tinyint(2) unsigned NOT NULL DEFAULT 0 CHECK ('bedrooms' >= 0),
+  `bathrooms` tinyint(2) unsigned NOT NULL DEFAULT 0 CHECK ('bathrooms' >= 0),
+  `parkingSpaces` tinyint(2) unsigned NOT NULL DEFAULT 0 CHECK ('parkingSpaces' >= 0),
+  `gardenspace` char(1) NOT NULL DEFAULT 'N' CHECK (`gardenspace` = 'N' or `gardenspace` = 'Y'),
+  `petsAllowed` char(1) NOT NULL DEFAULT 'N' CHECK (`petsAllowed` = 'N' or `petsAllowed` = 'Y'),
+  `ownerOccupied` char(1) NOT NULL DEFAULT 'N' CHECK (`ownerOccupied` = 'N' or `ownerOccupied` = 'Y'),
   `status` char(1) NOT NULL DEFAULT 'A' CHECK (`status` = 'A' or `status` = 'U'),
   `ownerID` smallint(5) unsigned NOT NULL,
   `type` varchar(30) NOT NULL,
@@ -148,4 +148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-23 14:23:00
+-- Dump completed on 2023-03-28 13:41:28

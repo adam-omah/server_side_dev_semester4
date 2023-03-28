@@ -9,7 +9,7 @@
 
     <?php include 'includes/code/updateOwnerCode.inc';  ?>
 
-    <title>Add a new Owner</title>
+    <title>Update an Owner</title>
   </head>
   <body>
     <?php include 'includes/header.inc'; ?>

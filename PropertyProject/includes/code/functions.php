@@ -38,4 +38,30 @@ function isValidEmail($email)
   }
 }
 
+function isValidTinyInt($number)
+{
+  // tiny int for the property values max is 99.
+  $numberPattern = "/^([0-9][0-9]?)$/i";
+  $result = preg_match($numberPattern, $number);
+
+  if ($result == 1) {
+    return true;
+  }else {
+    return false;
+  }
+}
+
+function isValidDecimal($number)
+{
+  // Decimal pattern checking for the monthly rent.
+  $numberPattern = "/^([0-9][0-9]{0,7}\.?[0-9]{0,2}?)$/i";
+  $result = preg_match($numberPattern, $number);
+
+  if ($result == 1) {
+    return true;
+  }else {
+    return false;
+  }
+}
+
  ?>

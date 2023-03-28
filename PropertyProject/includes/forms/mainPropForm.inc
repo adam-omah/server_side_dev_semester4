@@ -39,9 +39,7 @@
       </div>
       <div class="col-md-12">
         <label for="description" class="form-label mt-2">Description:</label>
-        <textarea class="form-control form-control-sm <?php echo $isValidDescription; ?>" name="description" rows="6" cols="80">
-          <?php echo $description ?>
-        </textarea>
+        <textarea class="form-control form-control-sm <?php echo $isValidDescription; ?>" name="description" rows="6" cols="80"><?php echo $description ?></textarea>
         <div class="invalid-feedback">Sorry, Description cannot be empty</div>
       </div>
 
@@ -55,19 +53,19 @@
         <div class="col-md-6">
           <label for="bedrooms" class="form-label mt-2">Bedrooms:</label>
           <input class="form-control form-control-sm <?php echo $isValidBedroom; ?>" type="text" name="bedrooms" value="<?php echo $bedrooms ?>">
-          <div class="invalid-feedback">Sorry, Bedrooms cannot be empty & must be a positive number.</div>
+          <div class="invalid-feedback">Sorry, Bedrooms cannot be empty & must be a positive number (max 99).</div>
         </div>
 
         <div class="col-md-6">
-          <label for="Bathrooms" class="form-label mt-2">Bathrooms:</label>
-          <input class="form-control form-control-sm <?php echo $isValidBathroom; ?>" type="text" name="Bathrooms" value="<?php echo $bathrooms ?>">
-          <div class="invalid-feedback">Sorry, Bathrooms cannot be empty & must be a positive number.</div>
+          <label for="bathrooms" class="form-label mt-2">Bathrooms:</label>
+          <input class="form-control form-control-sm <?php echo $isValidBathroom; ?>" type="text" name="bathrooms" value="<?php echo $bathrooms ?>">
+          <div class="invalid-feedback">Sorry, Bathrooms cannot be empty & must be a positive number (max 99).</div>
         </div>
 
         <div class="col-md-6">
           <label for="parking" class="form-label mt-2">Parking Spaces:</label>
           <input class="form-control form-control-sm <?php echo $isValidParking; ?>" type="text" name="parking" value="<?php echo $parking ?>">
-          <div class="invalid-feedback">Sorry, Parking Spaces cannot be empty & must be a positive number.</div>
+          <div class="invalid-feedback">Sorry, Parking Spaces cannot be empty & must be a positive number (max 99).</div>
         </div>
       </div>
 

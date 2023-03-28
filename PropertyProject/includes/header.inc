@@ -18,7 +18,7 @@
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Properties</a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="addProperty.php">Add Property</a>
-              <a class="dropdown-item" href="#">Rent Property</a>
+              <a class="dropdown-item" href="rentProperty.php">Rent Property</a>
             </div>
           </li>
           <li class="nav-item dropdown">
