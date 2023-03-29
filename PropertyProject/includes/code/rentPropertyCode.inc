@@ -109,7 +109,7 @@ if(isset($_POST['rentProperty'])){
 
     if(isset($_POST['startDate'])){
       // set variable startDate to post
-      $startDate) = $_POST['startDate'];
+      $startDate = $_POST['startDate'];
       // First Name not empty & max 30 chars.
       if (strlen($startDate) > 30 || $startDate =='' ) {
         // Highlight that is invalid.
@@ -140,7 +140,12 @@ if(isset($_POST['rentProperty'])){
       // Check Rental is allowed
       try{
 
-        echo "<h2> TenantId = $tenantID, Eircode = $eircode, startDate = $startDate, endDate = $endDate </h2>";
+
+        $startDateFormated =date("Y-m-d",strtotime($startDate));
+        $endDateFormated =date("Y-m-d",strtotime($endDate));
+
+        echo "<h2> TenantId = $tenantID, Eircode = $eircode, startDate = $startDateFormated, endDate = $endDateFormated </h2>";
+        // TenantId = 3, Eircode = v92ffff, startDate = 2023-03-31, endDate = 2023-04-01
 
         // if rental allowed rent the property.
 
