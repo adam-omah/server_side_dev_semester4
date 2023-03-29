@@ -2,6 +2,7 @@
 $parentPage = "rentProperty.php";
 
 $rentSucess = false;
+$tenantAdded = false;
 
 // eircode of property selected:
 $eircode = "";
@@ -12,6 +13,10 @@ $lastName ="";
 $phone = "";
 $email = "";
 
+$tenantID = "";
+$startDate = "";
+$endDate = "";
+
 
 $validEircode = false;
 
@@ -21,6 +26,11 @@ $validEircode = false;
 $validPhone = false;
 $validEmail =false;
 
+
+$validTenantID = false;
+$validStartDate = false;
+$validEndDate = false;
+
 $isValidEircode = "";
 $isValidTown = "";
 
@@ -28,6 +38,10 @@ $isValidFirst = "";
 $isValidLast = "";
 $isValidPhone = "";
 $isValidEmail ="";
+
+$isValidTenantID = "";
+$isValidStartDate = "";
+$isValidEndDate = "";
 
 
 // try connect to the database:
@@ -67,56 +81,16 @@ if(isset($_POST['selectProperty'])){
 
 
 if(isset($_POST['rentProperty'])){
+
   // Validate Rental fields.
     if (isset($_POST['tenantID'])) {
       $tenantID = $_POST['tenantID'];
-      if($ownerID == "") {
+      if($tenantID == "") {
         // Highlight that is invalid.
         $isValidID = "is-invalid";
       }else{
         $validID = true;
         $isValidID = "is-valid;";
-      }
-    }
-
-    if(isset($_POST['firstName'])){
-      // set variable firstname to post
-      $firstName = $_POST['firstName'];
-      // First Name not empty & max 30 chars.
-      if (strlen($firstName) > 30 || $firstName =='' ) {
-        // Highlight that is invalid.
-        $isValidFirst = "is-invalid";
-      }else {
-        $validFistName = true;
-        $isValidFirst = "is-valid";
-      }
-
-    }
-
-    if(isset($_POST['lastName'])){
-      // set variable lastname to post
-      $lastName = $_POST['lastName'];
-      //last name not empty & max 40 chars.
-      if (strlen($lastName) > 40 || $lastName =='') {
-        // Highlight that is invalid.
-        $isValidLast = "is-invalid";
-      }else {
-        $validLastName = true;
-        $isValidLast = "is-valid";
-      }
-
-    }
-
-    if(isset($_POST['phone'])){
-      // set variable Phone to post
-      $phone = $_POST['phone'];
-      // phone is valid number & < 15 chars long.
-      if (strlen($phone) > 15 || !isValidPhone($phone)) {
-        // Highlight that is invalid.#
-        $isValidPhone = "is-invalid";
-      }else {
-        $validPhone = true;
-        $isValidPhone = "is-valid";
       }
     }
 
@@ -133,42 +107,59 @@ if(isset($_POST['rentProperty'])){
       }
     }
 
-    if(isset($_POST['email'])){
-      // set variable Phone to post
-      $email = $_POST['email'];
-      // phone is valid number & < 15 chars long.
-      if (strlen($email) > 50 || $email =='') {
-        // Highlight that is invalid.#
-        $isValidEmail = "is-invalid";
+    if(isset($_POST['startDate'])){
+      // set variable startDate to post
+      $startDate) = $_POST['startDate'];
+      // First Name not empty & max 30 chars.
+      if (strlen($startDate) > 30 || $startDate =='' ) {
+        // Highlight that is invalid.
+        $isValidStartDate = "is-invalid";
       }else {
-        $validEmail = true;
-        $isValidEmail = "is-valid";
+        $validStartDate = true;
+        $isValidStartDate = "is-valid";
       }
+
+    }
+
+    if(isset($_POST['endDate'])){
+      // set variable endDate to post
+      $endDate = $_POST['endDate'];
+      //last name not empty & max 40 chars.
+      if (strlen($endDate) > 40 || $endDate =='') {
+        // Highlight that is invalid.
+        $isValidEndDate = "is-invalid";
+      }else {
+        $validEndDate = true;
+        $isValidEndDate = "is-valid";
+      }
+
     }
 
     // if all valid add to owners.
-    if($validID && $validStatus  && $validFistName && $validLastName && $validPhone && $validEircode && $validEmail){
-      // Update the owner.
+    if($validID && $validEircode  && $validStartDate && $validEndDate){
+      // Check Rental is allowed
       try{
-        // used this to test, as status had an error.
-        // echo "<script> alert('Trying to update owner  status is : $ownerStatus')</script>";
 
-        $sql = "Update Owners set firstName=:fname, lastName = :lname, phone = :phn, email = :eml , eircode = :eir, status = :stat where ownerID = :oid";
+        echo "<h2> TenantId = $tenantID, Eircode = $eircode, startDate = $startDate, endDate = $endDate </h2>";
 
-        $stmt = $pdo->prepare($sql);
+        // if rental allowed rent the property.
 
-        $stmt->bindValue(':oid', $ownerID);
-        $stmt->bindValue(':fname', $firstName);
-        $stmt->bindValue(':lname', $lastName);
-        $stmt->bindValue(':phn', $phone);
-        $stmt->bindValue(':eml', $email);
-        $stmt->bindValue(':eir', $eircode);
-        $stmt->bindValue(':stat', $ownerStatus);
+        // $sql = "Update Owners set firstName=:fname, lastName = :lname, phone = :phn, email = :eml , eircode = :eir, status = :stat where ownerID = :oid";
+        //
+        // $stmt = $pdo->prepare($sql);
+        //
+        // $stmt->bindValue(':oid', $ownerID);
+        // $stmt->bindValue(':fname', $firstName);
+        // $stmt->bindValue(':lname', $lastName);
+        // $stmt->bindValue(':phn', $phone);
+        // $stmt->bindValue(':eml', $email);
+        // $stmt->bindValue(':eir', $eircode);
+        // $stmt->bindValue(':stat', $ownerStatus);
+        //
+        // $stmt->execute();
 
-        $stmt->execute();
-
-        // reset everything, change to sucess window
-        unset($_POST);
+        // // reset everything, change to sucess window
+        // unset($_POST);
         $rentSucess = true;
 
       }
@@ -181,7 +172,7 @@ if(isset($_POST['rentProperty'])){
         }
 
     }
-} else if (isset($_POST['addTenant'])) {
+} else if (isset($_POST['addTenant']) && $tenantAdded == false) {
   // if tenant is added but the property is not yet attempted to be rented.
   //validate eircode still correct:
   if (isset($_POST['eircode'])) {
@@ -269,14 +260,15 @@ if(isset($_POST['rentProperty'])){
 
       $stmt->execute();
 
-      // reset everything, change to sucess window
-      unset($_POST);
+      $tenantAdded = true;
 
-      $ownerAdded = true;
+      $last_id = $pdo->lastInsertId();
+
+      $tenantID = $last_id;
 
     }
     catch (PDOException $e) {
-      echo "An error has occured, owner not added";
+      echo "An error has occured, Tenant not added";
       echo "Values were : $firstName, $lastName, $phone, $email";
     }
   }
