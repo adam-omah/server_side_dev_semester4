@@ -18,16 +18,18 @@
         <div class="invalid-feedback">Sorry, eircode is invalid, please search again for a property.</div>
       </div>
 
+      <?php echo $datesNotAvailableMessage; ?>
+
       <div class="col-md-6">
         <label for="startDate" class="form-label mt-2">Start Date: </label>
         <input type="datetime-local" class="form-control form-control-sm <?php echo $isValidStartDate; ?>" name="startDate" value="<?php echo $startDate; ?>">
-        <div class="invalid-feedback">Sorry, Start Date invalid!</div>
+        <div class="invalid-feedback">Sorry, Start Date invalid Or Unavailable! Must be a date in the future!</div>
       </div>
 
       <div class="col-md-6">
         <label for="endDate" class="form-label mt-2 ">End Date:</label>
         <input type="datetime-local" class="form-control form-control-sm <?php echo $isValidEndDate; ?>" name="endDate" value="<?php echo $endDate; ?>">
-        <div class="invalid-feedback">Sorry, End Date invalid!</div>
+        <div class="invalid-feedback">End Date invalid Or Unavailable! Must be after Start Date.</div>
       </div>
 
     </div>

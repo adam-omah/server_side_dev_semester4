@@ -18,8 +18,12 @@
       <div class="row justify-content-center">
         <div class="col-10 ">
           <?php
+
+
           if ($rentSucess) {
             include 'includes/results/rentSucess.inc';
+          }else if ($datesNotAvailable || (isset($_POST['rentProperty']) && ($validEndDate == false || $validStartDate == false))) {
+            include 'includes/forms/rentPropertyForm.inc';
           }else{
             if (isset($_POST['findProperties'])) {
               if (strlen($_POST['townSearch'])  > 50 || $_POST['townSearch'] == '' ) {

@@ -1,5 +1,6 @@
 <div class="find-Properties-form">
   <!-- this $parentPage allows the re-use of the find owner function. -->
+  <!-- this form passes information to select property. -->
   <form class="" action="<?php echo $parentPage; ?>" method="post">
     <div class="form-group row">
       <div class="col-md-12">

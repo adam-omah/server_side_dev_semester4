@@ -3,6 +3,8 @@ $parentPage = "rentProperty.php";
 
 $rentSucess = false;
 $tenantAdded = false;
+$datesNotAvailable = false;
+$datesNotAvailableMessage = "";
 
 // eircode of property selected:
 $eircode = "";
@@ -17,6 +19,7 @@ $tenantID = "";
 $startDate = "";
 $endDate = "";
 
+$todaysDate = date("Y-m-d");
 
 $validEircode = false;
 
@@ -110,13 +113,22 @@ if(isset($_POST['rentProperty'])){
     if(isset($_POST['startDate'])){
       // set variable startDate to post
       $startDate = $_POST['startDate'];
-      // First Name not empty & max 30 chars.
-      if (strlen($startDate) > 30 || $startDate =='' ) {
+
+
+      if ($startDate =='') {
         // Highlight that is invalid.
         $isValidStartDate = "is-invalid";
       }else {
-        $validStartDate = true;
-        $isValidStartDate = "is-valid";
+        // need to test if start day is before current date.
+        $startDateFormated =date("Y-m-d",strtotime($startDate));
+        if ($startDateFormated >= $todaysDate) {
+          $validStartDate = true;
+          $isValidStartDate = "is-valid";
+        }else {
+          // Highlight that is invalid.
+          $isValidStartDate = "is-invalid";
+        }
+
       }
 
     }
@@ -124,13 +136,22 @@ if(isset($_POST['rentProperty'])){
     if(isset($_POST['endDate'])){
       // set variable endDate to post
       $endDate = $_POST['endDate'];
+
       //last name not empty & max 40 chars.
-      if (strlen($endDate) > 40 || $endDate =='') {
+      if ($endDate =='') {
         // Highlight that is invalid.
         $isValidEndDate = "is-invalid";
       }else {
-        $validEndDate = true;
-        $isValidEndDate = "is-valid";
+        // not empty so chekc if end date is greater than start date.
+        $endDateFormated =date("Y-m-d",strtotime($endDate));
+        if($validStartDate == true && ($endDateFormated > $startDateFormated)){
+          $validEndDate = true;
+          $isValidEndDate = "is-valid";
+        }else{
+          // Highlight that is invalid.
+          $isValidEndDate = "is-invalid";
+        }
+
       }
 
     }
@@ -139,33 +160,65 @@ if(isset($_POST['rentProperty'])){
     if($validID && $validEircode  && $validStartDate && $validEndDate){
       // Check Rental is allowed
       try{
+        // some code used for testing/ figuring out how to format correctly:
+        // echo "<h2> TenantId = $tenantID, Eircode = $eircode, startDate = $startDateFormated, endDate = $endDateFormated </h2>";
+
+        // retrieve all rentals that are active with this eircode:
+        $sql = "SELECT * FROM rentals where eircode = '$eircode' and status = 'A'";
+        $result = $pdo->query($sql);
+        if ($result->rowCount() == 0) {
+          // no rentals are found, go ahead and rent the property
+          echo "no Rentals found.";
+        }else{
+        while ($row = $result->fetch()) {
+        $rentID = $row['rentID'];
+        $rentalFoundStart = $row['startDate'];
+        $rentalFoundEnd = $row['endDate'];
+        // now set this to date:
+
+        $rentalFoundStartFormatted = date("Y-m-d",strtotime($rentalFoundStart));
+        $rentalFoundEndFormatted = date("Y-m-d",strtotime($rentalFoundEnd));
 
 
-        $startDateFormated =date("Y-m-d",strtotime($startDate));
-        $endDateFormated =date("Y-m-d",strtotime($endDate));
-
-        echo "<h2> TenantId = $tenantID, Eircode = $eircode, startDate = $startDateFormated, endDate = $endDateFormated </h2>";
-        // TenantId = 3, Eircode = v92ffff, startDate = 2023-03-31, endDate = 2023-04-01
+        // check if new date hits any already rented dates:
+        // first test start date:
+        if (($startDateFormated >= $rentalFoundStartFormatted) && ( $startDateFormated <= $rentalFoundEndFormatted)) {
+          // Rental start date fall within found ranges.
+          // set to not available;
+          $datesNotAvailable = true;
+          $isValidStartDate = false;
+          $isValidStartDate = "is-invalid";
+        }
+        //then test the end date:
+        elseif (($endDateFormated >= $rentalFoundStartFormatted && ($endDateFormated <= $rentalFoundEndFormatted))) {
+          // Rental End date fall within found ranges.
+          // set to not available;
+          $datesNotAvailable = true;
+          $isValidEndDate = false;
+          $isValidEndDate = "is-invalid";
+        }
+        }
+        }
 
         // if rental allowed rent the property.
+        if($datesNotAvailable == false){
+          $sql = "INSERT INTO rentals (startDate,endDate,status,eircode,tenantID) VALUES(:sday, :eday,:stat, :eir, :tid)";
 
-        // $sql = "Update Owners set firstName=:fname, lastName = :lname, phone = :phn, email = :eml , eircode = :eir, status = :stat where ownerID = :oid";
-        //
-        // $stmt = $pdo->prepare($sql);
-        //
-        // $stmt->bindValue(':oid', $ownerID);
-        // $stmt->bindValue(':fname', $firstName);
-        // $stmt->bindValue(':lname', $lastName);
-        // $stmt->bindValue(':phn', $phone);
-        // $stmt->bindValue(':eml', $email);
-        // $stmt->bindValue(':eir', $eircode);
-        // $stmt->bindValue(':stat', $ownerStatus);
-        //
-        // $stmt->execute();
+          $stmt = $pdo->prepare($sql);
 
-        // // reset everything, change to sucess window
-        // unset($_POST);
-        $rentSucess = true;
+          $stmt->bindValue(':sday', $startDateFormated);
+          $stmt->bindValue(':eday', $endDateFormated);
+          $stmt->bindValue(':tid', $tenantID);
+          $stmt->bindValue(':eir', $eircode);
+          $stmt->bindValue(':stat', 'A');
+
+          $stmt->execute();
+
+          // // reset everything, change to sucess window
+          // unset($_POST);
+          $rentSucess = true;
+        }
+
 
       }
       catch (PDOException $e) {
