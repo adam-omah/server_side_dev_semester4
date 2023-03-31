@@ -23,6 +23,7 @@ $todaysDate = date("Y-m-d");
 
 $validEircode = false;
 
+
 $validFistName = false;
 $validLastName = false;
 $validEircode = false;
@@ -90,10 +91,10 @@ if(isset($_POST['rentProperty'])){
       $tenantID = $_POST['tenantID'];
       if($tenantID == "") {
         // Highlight that is invalid.
-        $isValidID = "is-invalid";
+        $validTenantID = "is-invalid";
       }else{
-        $validID = true;
-        $isValidID = "is-valid;";
+        $validTenantID = true;
+        $isValidTenantID = "is-valid;";
       }
     }
 
@@ -157,7 +158,7 @@ if(isset($_POST['rentProperty'])){
     }
 
     // if all valid add to owners.
-    if($validID && $validEircode  && $validStartDate && $validEndDate){
+    if($validTenantID && $validEircode  && $validStartDate && $validEndDate){
       // Check Rental is allowed
       try{
         // some code used for testing/ figuring out how to format correctly:
@@ -168,7 +169,7 @@ if(isset($_POST['rentProperty'])){
         $result = $pdo->query($sql);
         if ($result->rowCount() == 0) {
           // no rentals are found, go ahead and rent the property
-          echo "no Rentals found.";
+          // nothing to do here just continue on.
         }else{
         while ($row = $result->fetch()) {
         $rentID = $row['rentID'];
@@ -181,22 +182,27 @@ if(isset($_POST['rentProperty'])){
 
 
         // check if new date hits any already rented dates:
-        // first test start date:
-        if (($startDateFormated >= $rentalFoundStartFormatted) && ( $startDateFormated <= $rentalFoundEndFormatted)) {
+        if (($startDateFormated <= $rentalFoundEndFormatted) && ($endDateFormated >= $rentalFoundStartFormatted)) {
           // Rental start date fall within found ranges.
+          // (StartA <= EndB)  and  (EndA >= StartB)
           // set to not available;
+          // start date not available:
+          if($startDateFormated >= $rentalFoundStartFormatted){
+            $isValidStartDate = false;
+            $isValidStartDate = "is-invalid";
+          } else if ($endDateFormated <= $rentalFoundEndFormatted){
+            $isValidEndDate = false;
+            $isValidEndDate = "is-invalid";
+          } else {
+            //both unavailable whole range overlaps
+            $isValidEndDate = false;
+            $isValidEndDate = "is-invalid";
+            $isValidStartDate = false;
+            $isValidStartDate = "is-invalid";
+          }
           $datesNotAvailable = true;
-          $isValidStartDate = false;
-          $isValidStartDate = "is-invalid";
         }
-        //then test the end date:
-        elseif (($endDateFormated >= $rentalFoundStartFormatted && ($endDateFormated <= $rentalFoundEndFormatted))) {
-          // Rental End date fall within found ranges.
-          // set to not available;
-          $datesNotAvailable = true;
-          $isValidEndDate = false;
-          $isValidEndDate = "is-invalid";
-        }
+
         }
         }
 
@@ -217,6 +223,9 @@ if(isset($_POST['rentProperty'])){
           // // reset everything, change to sucess window
           // unset($_POST);
           $rentSucess = true;
+        }else{
+          // display dates not available message.
+          $datesNotAvailableMessage = "<h4 class='text-danger'> Sorry this property is not available during these dates. </h4>";
         }
 
 
@@ -321,8 +330,10 @@ if(isset($_POST['rentProperty'])){
       $tenantAdded = true;
 
       $last_id = $pdo->lastInsertId();
-
+      // since adding the tenant is true, this tenant id is true.
       $tenantID = $last_id;
+      $validTenantID = true;
+      $isValidTenantID = "is-valid;";
 
     }
     catch (PDOException $e) {
