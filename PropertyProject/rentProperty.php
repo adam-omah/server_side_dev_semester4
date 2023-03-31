@@ -21,12 +21,16 @@
           if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             if ($rentSucess) {
               include 'includes/results/rentSucess.inc';
+            }else if ($validPropertyRental) {
+              include 'includes/forms/rentPropertyForm.inc';
             }else if ($townSearched) {
               include 'includes/forms/selectPropertyToRent.inc';
             }else {
+              echo "went to second last find props $validPropertyRental  $rentCost";
               include 'includes/code/findProperties.inc';
             }
           }else {
+            echo "went to last find props";
             include 'includes/code/findProperties.inc';
           }
 

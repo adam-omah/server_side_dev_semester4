@@ -1,8 +1,13 @@
 <?php
 $parentPage = "rentProperty.php";
 
+// control variables, depending on which is true to code will generate different forms.
+$townSearched = false;
+$validPropertyRental = false;
 $rentSucess = false;
 $tenantAdded = false;
+
+// these may not be used after the refactoring.
 $datesNotAvailable = false;
 $datesNotAvailableMessage = "";
 
@@ -10,7 +15,9 @@ $datesNotAvailableMessage = "";
 $eircode = "";
 $townSearch = "";
 
-$townSearched = false;
+$daysOfRental = 0;
+$rentalMonthPrice = 0;
+$rentCost = 0;
 
 $firstName ="";
 $lastName ="";
@@ -144,11 +151,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         $isValidEircode = "is-valid";
       }
     }
+
+    if(isset($_POST['startDate'])){
+      // set variable startDate to post
+      $startDate = $_POST['startDate'];
+      if ($startDate =='') {
+        // Highlight that is invalid.
+        $isValidStartDate = "is-invalid";
+      }else {
+        // need to test if start day is before current date.
+        $startDateFormated =date("Y-m-d",strtotime($startDate));
+        if ($startDateFormated >= $todaysDate) {
+          $validStartDate = true;
+          $isValidStartDate = "is-valid";
+        }else {
+          // Highlight that is invalid.
+          $isValidStartDate = "is-invalid";
+        }
+      }
+    }
+    if(isset($_POST['endDate'])){
+      // set variable endDate to post
+      $endDate = $_POST['endDate'];
+
+      //last name not empty & max 40 chars.
+      if ($endDate =='') {
+        // Highlight that is invalid.
+        $isValidEndDate = "is-invalid";
+      }else {
+        // not empty so chekc if end date is greater than start date.
+        $endDateFormated =date("Y-m-d",strtotime($endDate));
+        if($validStartDate == true && ($endDateFormated > $startDateFormated)){
+          $validEndDate = true;
+          $isValidEndDate = "is-valid";
+        }else{
+          // Highlight that is invalid.
+          $isValidEndDate = "is-invalid";
+        }
+      }
+    }
+    echo "Valid start = $validStartDate, valid End = $validEndDate, valid eircode = $validEircode, eircode = $eircode";
+    if ( $validStartDate && $validEndDate && $validEircode) {
+      // calculte days of the rental: the / 60 * 60 * 24 is to turn into days value. since strtotime will give in seconds.
+      $daysOfRental = (int)(strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
+      echo "Days of rental = $daysOfRental";
+      try {
+        $sqlProp = "SELECT * FROM properties where eircode = '$eircode'";
+        $resultProp = $pdo->query($sqlProp);
+        if ($resultProp->rowCount() == 0) {
+          echo "<h5 class ='mt-4'> Sorry Error finding property with matching eircode row count 0, please start search again. </h5>";
+          $validPropertyRental = false;
+        }else{
+          while ($propRow = $resultProp->fetch())
+            {
+              $rentalMonthPrice = (float)$propRow['rent'];
+            }
+          if ($rentalMonthPrice > 0 && $daysOfRental > 0) {
+            // set rent cost rounded to 2 decimals.
+            $rentCost = round(($rentalMonthPrice/30)*$daysOfRental,2);
+            // set rental to true.
+            $validPropertyRental = true;
+          }
+
+        }
+      } catch (\Exception $e) {
+        echo "<h5 class ='mt-4'> Sorry Error finding property with matching eircode, please start search again. </h5>";
+      }
+    }
   }
 
 
   if(isset($_POST['rentProperty'])){
-
     // Validate Rental fields.
       if (isset($_POST['tenantID'])) {
         $tenantID = $_POST['tenantID'];

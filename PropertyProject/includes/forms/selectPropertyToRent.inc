@@ -10,12 +10,12 @@
       </div>
       </div>
       <div class="col-md-6">
-        <label for="startDateFormated" class="form-label mt-2">Start Date: </label>
-        <input type="text" class="form-control form-control-sm " name="startDateFormated" value="<?php echo $startDateFormated ?>" readonly="readonly">
+        <label for="startDate" class="form-label mt-2">Start Date: </label>
+        <input type="text" class="form-control form-control-sm " name="startDate" value="<?php echo $startDateFormated ?>" readonly="readonly">
       </div>
       <div class="col-md-6">
-        <label for="endDateFormated" class="form-label mt-2">End Date: </label>
-        <input type="text" class="form-control form-control-sm " name="startDateFormated" value="<?php echo $endDateFormated ?>" readonly="readonly">
+        <label for="endDate" class="form-label mt-2">End Date: </label>
+        <input type="text" class="form-control form-control-sm " name="endDate" value="<?php echo $endDateFormated ?>" readonly="readonly">
       </div>
 
       <div class="col-md-12">
@@ -25,6 +25,9 @@
          ?>
 
       </div>
+    </div>
+    <div class="hidden">
+      <!-- these fields are hidden so that I can use them on next page, Session wouldnt work as I wanted user to stay on same page. -->
     </div>
     <div class="form-buttons">
       <input class="btn btn-primary" type="submit" name="newForm" value="Start New Form"><input class="btn btn-primary <?php echo $hideSelect ?>" type="submit" name="selectProperty" value="Rent Selected Property">

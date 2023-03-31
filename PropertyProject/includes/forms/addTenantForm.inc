@@ -2,14 +2,21 @@
     <div class="form-group row">
 
       <div class="sub-heading-form-group">
-        <h3 class="mt-4">Property Details:</h3>
+        <h3 class="mt-4">Rental Details:</h3>
       </div>
-
-      <div class="col-md-12">
+      <div class="col-md-6">
         <label for="eircode" class="form-label mt-2">Eircode: </label>
         <input type="text" class="form-control form-control-sm <?php echo $isValidEircode; ?>" name="eircode" value="<?php echo $eircode ?>" readonly="readonly">
         <!-- technically there should be no way to active this but putting in anyway -->
         <div class="invalid-feedback">Sorry, Eircode is invalid, please search again for a property.</div>
+      </div>
+      <div class="col-md-6">
+        <label for="startDate" class="form-label mt-2">Start Date: </label>
+        <input type="text" class="form-control form-control-sm " name="startDate" value="<?php echo $startDateFormated ?>" readonly="readonly">
+      </div>
+      <div class="col-md-6">
+        <label for="endDate" class="form-label mt-2">End Date: </label>
+        <input type="text" class="form-control form-control-sm " name="endDate" value="<?php echo $endDateFormated ?>" readonly="readonly">
       </div>
 
       <div class="sub-heading-form-group">
