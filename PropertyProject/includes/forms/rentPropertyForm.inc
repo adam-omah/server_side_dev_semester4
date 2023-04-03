@@ -3,6 +3,7 @@
 
       <div class="sub-heading-form-group">
         <h3 class="mt-4">Rental Details:</h3>
+        <?php echo $datesNotAvailableMessage; ?>
       </div>
       <div class="col-md-6">
         <label for="eircode" class="form-label mt-2">Eircode: </label>

@@ -11,6 +11,12 @@
     background-color: #009ba0;
 }
 
+.bg-primary, .btn-primary {
+  background-color: #00c2ca !important;
+}
+.btn-primary {
+  font-weight: 500;
+}
 
 /* form styling */
 .form-buttons {
@@ -39,4 +45,10 @@ option {
 .sucess-sections h2 {
     margin: 4rem !important;
     text-align: center;
+}
+
+/* Homepage */
+
+.logo-homepage{
+  max-width: 20vw;
 }

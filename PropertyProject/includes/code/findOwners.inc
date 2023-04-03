@@ -3,7 +3,7 @@
   <!-- this form passes information to either remove owner or select owner. -->
   <form class="" action="<?php echo $parentPage; ?>" method="post">
     <div class="form-group row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label for="ownerSurname" class="form-label mt-2">Owner Surname: </label>
         <input type="text" class="form-control form-control-sm <?php echo $isValidSurname; ?>" name="ownerSurname" value="">
         <div class="invalid-feedback">Sorry, Surname cannot be empty, or is invalid!</div>

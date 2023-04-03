@@ -18,7 +18,7 @@
 
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-6 ">
+        <div class="col-8 ">
           <?php
           if ($ownerAdded) {
             include 'includes/results/addOwnerSuccess.inc';
