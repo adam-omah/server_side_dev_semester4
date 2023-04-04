@@ -32,13 +32,8 @@ if(isset($_POST['removeOwner'])){
     }
 
     catch (PDOException $e) {
-
-    if ($e->getCode() == 23000) {
       // remove failed, dont change ownerRemoved bool
     }
-
-    }
-
   }
 }
 

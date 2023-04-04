@@ -2,6 +2,9 @@
 $parentPage = "updateOwner.php";
 
 $ownerUpdated = false;
+$ownerSearched = false;
+$ownerSelected = false;
+$ownerUpdateFailed = false;
 
 $ownerStatusASelected = "";
 $ownerStatusISelected = "";
@@ -18,7 +21,7 @@ $eircode ="";
 
 $validID = false;
 $validStatus = false;
-$validFistName = false;
+$validFirstName = false;
 $validLastName = false;
 $validEircode = false;
 $validPhone = false;
@@ -32,115 +35,53 @@ $isValidPhone = "";
 $isValidEmail ="";
 $isValidStatus = "";
 
+
+// try connect to the database:
+try {
+  // try make a connection, to search for the owner.
+  $pdo = new PDO('mysql:host=localhost;dbname=propertyrental; charset=utf8', 'root', '');
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+  echo  'An error has occurred';
+  $output = 'Database error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+  echo $output;
+  }
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
 if (isset($_POST['newForm'])) {
   // Reset the Form and post data if starting new property.
   unset($_POST);
 }
 
+if (isset($_POST['findOwner'])) {
+  if (strlen($_POST['ownerSurname'])  > 40 || $_POST['ownerSurname'] == '' ) {
+    // invalid owner surname, still include find owners.
+    $isValidSurname = "is-invalid";
+    $ownerSearched = false;
+  }else {
+    $ownerSearched = true;
+  }
+}
+
 if(isset($_POST['updateOwner'])){
   // Validate that Onwer fields.
-
-    if (isset($_POST['ownerID'])) {
-      $ownerID = $_POST['ownerID'];
-      if($ownerID == "") {
-        // Highlight that is invalid.
-        $isValidID = "is-invalid";
-      }else{
-        $validID = true;
-        $isValidID = "is-valid;";
-      }
-    }
-    if (isset($_POST['ownerStatus'])) {
-
-      $ownerStatus = $_POST['ownerStatus'];
-      if ($ownerStatus == 'A' || $ownerStatus == 'I') {
-        $validStatus = true;
-        $isValidStatus = "is-valid;";
-      }else{
-        $validStatus = false;
-        $isValidStatus = "is-invalid";
-      }
-    }
-
-    if(isset($_POST['firstName'])){
-      // set variable firstname to post
-      $firstName = $_POST['firstName'];
-      // First Name not empty & max 30 chars.
-      if (strlen($firstName) > 30 || $firstName =='' ) {
-        // Highlight that is invalid.
-        $isValidFirst = "is-invalid";
-      }else {
-        $validFistName = true;
-        $isValidFirst = "is-valid";
-      }
-
-    }
-
-    if(isset($_POST['lastName'])){
-      // set variable lastname to post
-      $lastName = $_POST['lastName'];
-      //last name not empty & max 40 chars.
-      if (strlen($lastName) > 40 || $lastName =='') {
-        // Highlight that is invalid.
-        $isValidLast = "is-invalid";
-      }else {
-        $validLastName = true;
-        $isValidLast = "is-valid";
-      }
-
-    }
-
-    if(isset($_POST['phone'])){
-      // set variable Phone to post
-      $phone = $_POST['phone'];
-      // phone is valid number & < 15 chars long.
-      if (strlen($phone) > 15 || !isValidPhone($phone)) {
-        // Highlight that is invalid.#
-        $isValidPhone = "is-invalid";
-      }else {
-        $validPhone = true;
-        $isValidPhone = "is-valid";
-      }
-    }
-
-    if(isset($_POST['eircode'])){
-      // set variable eircode to post
-      $eircode = $_POST['eircode'];
-      // valid Eircode & 7 chars long.
-      if (strlen($eircode) != 7 || !isValidEircode($eircode)) {
-        // Highlight that is invalid.
-        $isValidEircode = "is-invalid";
-      }else {
-        $validEircode = true;
-        $isValidEircode = "is-valid";
-      }
-    }
-
-    if(isset($_POST['email'])){
-      // set variable Phone to post
-      $email = $_POST['email'];
-      // phone is valid number & < 15 chars long.
-      if (strlen($email) > 50 || $email =='') {
-        // Highlight that is invalid.#
-        $isValidEmail = "is-invalid";
-      }else {
-        $validEmail = true;
-        $isValidEmail = "is-valid";
-      }
-    }
+    // check that an owner Id was passed.
+    validateOwnerID();
+    // Check Status and set correct to true.
+    validateOwnerStatus();
+    validateFirstName();
+    validateLastName();
+    validatePhone();
+    validateEircode();
+    validateEmail();
 
     // if all valid add to owners.
-    if($validID && $validStatus  && $validFistName && $validLastName && $validPhone && $validEircode && $validEmail){
+    if($validID && $validStatus  && $validFirstName && $validLastName && $validPhone && $validEircode && $validEmail){
       // Update the owner.
       try{
         // used this to test, as status had an error.
         // echo "<script> alert('Trying to update owner  status is : $ownerStatus')</script>";
-        $pdo = new PDO('mysql:host=localhost;dbname=propertyrental; charset=utf8', 'root', '');
-
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         $sql = "Update Owners set firstName=:fname, lastName = :lname, phone = :phn, email = :eml , eircode = :eir, status = :stat where ownerID = :oid";
-
         $stmt = $pdo->prepare($sql);
 
         $stmt->bindValue(':oid', $ownerID);
@@ -159,13 +100,10 @@ if(isset($_POST['updateOwner'])){
 
       }
       catch (PDOException $e) {
-
-        $title = 'An error has occurred';
-
-        $output = 'Database error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-
+        $ownerUpdateFailed= true;
         }
-
+    }else {
+      $ownerUpdateFailed= true;
     }
 }
 
@@ -174,9 +112,7 @@ if(isset($_POST['selectOwner'])){
   if (isset($_POST['ownerID'])) {
     $ownerID = $_POST['ownerID'];
     try {
-      // try make a connection, to search for the owner.
-    $pdo = new PDO('mysql:host=localhost;dbname=propertyrental; charset=utf8', 'root', '');
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      // search for the owner.
     $sql = "SELECT * FROM owners where ownerID = :oid";
     $result = $pdo->prepare($sql);
     $result->bindValue(':oid', $_POST['ownerID']);
@@ -193,24 +129,19 @@ if(isset($_POST['selectOwner'])){
       }else if ($ownerStatus == "I") {
         $ownerStatusISelected = "selected";
       }
-
-
-
-
-
       $ownerID = $row['ownerID'];
-
       $firstName = $row['firstName'];
       $lastName = $row['lastName'];
       $phone = $row['phone'];
       $email = $row['email'];
       $eircode = $row['eircode'];
 
-    }
+      $ownerSelected = true;
+      }
     } catch (\Exception $e) {
 
+      }
     }
-
   }
 }
 

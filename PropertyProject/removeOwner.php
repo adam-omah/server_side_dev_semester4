@@ -19,10 +19,8 @@
       <div class="row justify-content-center">
         <div class="col-8">
           <?php
-          if ($ownerRemoved) {
-            // code...
-          }
             if (isset($_POST['findOwner'])) {
+              // check valid find owner
               if (strlen($_POST['ownerSurname'])  > 40 || $_POST['ownerSurname'] == '' ) {
                 // invalid owner surname, still include find owners.
                 $isValidSurname = "is-invalid";

@@ -33,7 +33,7 @@ $todaysDate = date("Y-m-d");
 $validEircode = false;
 
 $validTown = false;
-$validFistName = false;
+$validFirstName = false;
 $validLastName = false;
 $validEircode = false;
 $validPhone = false;
@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         // Highlight that is invalid.
         $isValidFirst = "is-invalid";
       }else {
-        $validFistName = true;
+        $validFirstName = true;
         $isValidFirst = "is-valid";
       }
     }
@@ -277,7 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
       }
     }
     //add tenant to the Database
-    if($validFistName && $validLastName && $validPhone && $validEmail){
+    if($validFirstName && $validLastName && $validPhone && $validEmail){
       // add to Tenants
       try{
 

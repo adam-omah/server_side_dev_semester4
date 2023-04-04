@@ -31,36 +31,6 @@
           }else {
             include 'includes/code/findProperties.inc';
           }
-
-
-          // if ($rentSucess) {
-          //   include 'includes/results/rentSucess.inc';
-          // }else if ($datesNotAvailable || (isset($_POST['rentProperty']) && ($validEndDate == false || $validStartDate == false))) {
-          //   include 'includes/forms/rentPropertyForm.inc';
-          // }else{
-          //   if (isset($_POST['findProperties'])) {
-          //     if (strlen($_POST['townSearch'])  > 50 || $_POST['townSearch'] == '' ) {
-          //       // invalid Town searched.
-          //       $isValidTown = "is-invalid";
-          //       include 'includes/code/findProperties.inc';
-          //     }else{
-          //       // if valid Town searched.
-          //       include 'includes/code/selectProperty.inc';
-          //     }
-          //   }else if (isset($_POST['selectProperty'])) {
-          //     if (isset($_POST['propertySelected']) && isValidEircode($_POST['propertySelected'])) {
-          //         include 'includes/forms/addTenantForm.inc';
-          //     }else {
-          //       // invalid eircode found go back to town search.
-          //       include 'includes/code/findProperties.inc';
-          //     }
-          //   }else if(isset($_POST['addTenant'])){
-          //     include 'includes/forms/rentPropertyForm.inc';
-          //   }
-          //   else{
-          //     include 'includes/code/findProperties.inc';
-          //   }
-          // }
          ?>
         </div>
       </div>

@@ -20,30 +20,14 @@
           <?php
           if ($ownerUpdated) {
             include 'includes/results/updateOwnerSuccess.inc';
-          }else{
-            if (isset($_POST['findOwner'])) {
-              if (strlen($_POST['ownerSurname'])  > 40 || $_POST['ownerSurname'] == '' ) {
-                // invalid owner surname, still include find owners.
-                $isValidSurname = "is-invalid";
-                include 'includes/code/findOwners.inc';
-              }else{
-                // if valid surname searched.
-                include 'includes/code/selectOwner.inc';
-              }
-            }else if (isset($_POST['selectOwner'])) {
-              if (isset($_POST['ownerID'])) {
-                include 'includes/forms/updateOwnerForm.inc';
-              }else {
-                // invalid owner ID, go back to find owner.
-                $isValidSurname = "is-invalid";
-                include 'includes/code/findOwners.inc';
-              }
-            }else if(isset($_POST['updateOwner'])){
-              include 'includes/forms/updateOwnerForm.inc';
-            }
-            else{
-              include 'includes/code/findOwners.inc';
-            }
+          }else if($ownerSearched){
+            include 'includes/code/selectOwner.inc';
+          }else if ($ownerSelected){
+            include 'includes/forms/updateOwnerForm.inc';
+          }else if($ownerUpdateFailed) {
+            include 'includes/forms/updateOwnerForm.inc';
+          }else {
+            include 'includes/code/findOwners.inc';
           }
          ?>
         </div>
