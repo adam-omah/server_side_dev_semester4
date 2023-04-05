@@ -25,6 +25,8 @@
               include 'includes/forms/rentPropertyForm.inc';
             }else if ($townSearched) {
               include 'includes/forms/selectPropertyToRent.inc';
+            }else if($failedToAddTenant){
+              include 'includes/forms/rentPropertyForm.inc';
             }else {
               include 'includes/code/findProperties.inc';
             }

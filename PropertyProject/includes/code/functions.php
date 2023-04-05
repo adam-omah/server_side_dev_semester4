@@ -1,4 +1,4 @@
-<!-- Here is the functions for my project, mainly validation or re-useable function -->
+<!-- Here is the functions for my project, mainly validation or re-useable function Or just to tidy up functions on pages. -->
 <?php
 function isValidPhone($phone)
 {
@@ -283,5 +283,125 @@ function validateParking(){
     }
   }
 }
+
+function validateTownSearch(){
+  if (isset($_POST['townSearch'])) {
+    global $townSearch, $isValidTown, $townSearched, $validTown;
+    $townSearch = $_POST['townSearch'];
+    if (strlen($townSearch)  > 50 || $townSearch == '' ) {
+      // invalid Town searched.
+      $isValidTown = "is-invalid";
+      $townSearched = false;
+    }else{
+      // if valid Town searched.
+      $validTown = true;
+    }
+  }
+}
+
+function validateStartDate(){
+  if(isset($_POST['startDate'])){
+    global $startDate, $startDateFormated, $todaysDate, $validStartDate, $isValidStartDate;
+    // set variable startDate to post
+    $startDate = $_POST['startDate'];
+    if ($startDate =='') {
+      // Highlight that is invalid.
+      $isValidStartDate = "is-invalid";
+    }else {
+      // need to test if start day is before current date.
+      $startDateFormated =date("Y-m-d",strtotime($startDate));
+      if ($startDateFormated >= $todaysDate) {
+        $validStartDate = true;
+        $isValidStartDate = "is-valid";
+      }else {
+        // Highlight that is invalid.
+        $isValidStartDate = "is-invalid";
+      }
+    }
+  }
+}
+
+function validateEndDate(){
+  if(isset($_POST['endDate'])){
+    global $endDate, $endDateFormated, $validEndDate, $isValidEndDate, $startDateFormated, $validStartDate;
+    // set variable endDate to post
+    $endDate = $_POST['endDate'];
+
+    //last name not empty & max 40 chars.
+    if ($endDate =='') {
+      // Highlight that is invalid.
+      $isValidEndDate = "is-invalid";
+    }else {
+      // not empty so chekc if end date is greater than start date.
+      $endDateFormated =date("Y-m-d",strtotime($endDate));
+      if($validStartDate == true && ($endDateFormated > $startDateFormated)){
+        $validEndDate = true;
+        $isValidEndDate = "is-valid";
+      }else{
+        // Highlight that is invalid.
+        $isValidEndDate = "is-invalid";
+      }
+    }
+  }
+}
+
+function validatePropertySelected(){
+  if (isset($_POST['propertySelected'])) {
+    global $eircode, $isValidEircode, $validEircode;
+    $eircode = $_POST['propertySelected'];
+    // valid Eircode & 7 chars long. and valid eircode
+    if (strlen($eircode) != 7 || !isValidEircode($eircode)) {
+      // Highlight that is invalid.
+      $isValidEircode = "is-invalid";
+    }else {
+      $validEircode = true;
+      $isValidEircode = "is-valid";
+    }
+  }
+}
+
+
+function calculateDaysOfRental(){
+  // this function was used then incorporated into the validate Property to rent function.
+  // calculte days of the rental: the / 60 * 60 * 24 is to turn into days value. since strtotime will give in seconds.
+  global $daysOfRental,$startDate, $endDate;
+  $daysOfRental = (int)(strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
+}
+
+function setCostOfRental(){
+  // this function was used then incorporated into the validate Property to rent function.
+  // set rent cost rounded to 2 decimals.
+  global $rentCost,$rentalMonthPrice, $daysOfRental;
+  $rentCost = round(($rentalMonthPrice/30)*$daysOfRental,2);
+}
+
+function validatePropertyToRent(){
+  global $sqlProp,$eircode,$resultProp, $pdo, $datesNotAvailableMessage, $validPropertyRental,
+  $rentalMonthPrice, $rentCost,$rentalMonthPrice, $daysOfRental, $startDate, $endDate;
+  // calculte days of the rental: the / 60 * 60 * 24 is to turn into days value. since strtotime will give in seconds.
+  $daysOfRental = (int)(strtotime($endDate) - strtotime($startDate)) / (60 * 60 * 24);
+  try {
+    $sqlProp = "SELECT * FROM properties where eircode = '$eircode'";
+    $resultProp = $pdo->query($sqlProp);
+    if ($resultProp->rowCount() == 0) {
+      $datesNotAvailableMessage = "<h5 class ='mt-4'> Sorry Error finding property with matching eircode row count 0, please start search again. </h5>";
+      $validPropertyRental = false;
+    }else{
+      while ($propRow = $resultProp->fetch())
+        {
+          $rentalMonthPrice = (float)$propRow['rent'];
+        }
+      if ($rentalMonthPrice > 0 && $daysOfRental > 0) {
+        // set rent cost rounded to 2 decimals.
+        $rentCost = round(($rentalMonthPrice/30)*$daysOfRental,2);
+        // set rental to true. if it hits here then it will reload to where you can fill in the tenant details.
+        $validPropertyRental = true;
+      }
+    }
+  } catch (\Exception $e) {
+    $datesNotAvailableMessage = "<h5 class ='mt-4'> Sorry Error finding property with matching eircode, please start search again. </h5>";
+  }
+}
+
 
  ?>

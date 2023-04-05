@@ -41,8 +41,9 @@
 
         }
         catch (PDOException $e) {
-          // dont really do anything with this output.
+
         $output = 'Unable to connect to the database server: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+        echo $output;
         }
 
        ?>
