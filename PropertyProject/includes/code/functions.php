@@ -68,7 +68,7 @@ function validateEircode(){
   if(isset($_POST['eircode'])){
     global $eircode, $isValidEircode, $validEircode;
     // set variable eircode to post
-    $eircode = $_POST['eircode'];
+    $eircode = strtoupper($_POST['eircode']);
     // valid Eircode & 7 chars long. and valid eircode
     if (strlen($eircode) != 7 || !isValidEircode($eircode)) {
       // Highlight that is invalid.

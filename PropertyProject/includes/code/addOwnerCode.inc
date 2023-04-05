@@ -50,7 +50,7 @@ if(isset($_POST['addOwner'])){
         $stmt->bindValue(':lname', $lastName);
         $stmt->bindValue(':phn', $phone);
         $stmt->bindValue(':eml', $email);
-        $stmt->bindValue(':eir', $eircode);
+        $stmt->bindValue(':eir', strtoupper($eircode));
         $stmt->bindValue(':stat', 'A');
 
         $stmt->execute();

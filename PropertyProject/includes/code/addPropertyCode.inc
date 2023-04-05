@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
           $stmt = $pdo->prepare($sql);
 
-          $stmt->bindValue(':eir', $eircode);
+          $stmt->bindValue(':eir', strtoupper($eircode));
           $stmt->bindValue(':twn', $town);
           $stmt->bindValue(':add', $address);
           $stmt->bindValue(':des', $description);

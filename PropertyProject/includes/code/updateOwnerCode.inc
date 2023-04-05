@@ -89,7 +89,7 @@ if(isset($_POST['updateOwner'])){
         $stmt->bindValue(':lname', $lastName);
         $stmt->bindValue(':phn', $phone);
         $stmt->bindValue(':eml', $email);
-        $stmt->bindValue(':eir', $eircode);
+        $stmt->bindValue(':eir', strtoupper($eircode));
         $stmt->bindValue(':stat', $ownerStatus);
 
         $stmt->execute();

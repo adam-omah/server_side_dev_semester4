@@ -65,10 +65,8 @@ try {
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
 
-  $title = 'An error has occurred';
-
   $output = 'Database error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
-
+  echo $output;
   }
 
 
@@ -214,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $stmt->bindValue(':sday', $startDateFormated);
             $stmt->bindValue(':eday', $endDateFormated);
             $stmt->bindValue(':tid', $tenantID);
-            $stmt->bindValue(':eir', $eircode);
+            $stmt->bindValue(':eir', strtoupper($eircode));
             $stmt->bindValue(':rcst', $rentCost);
             $stmt->bindValue(':stat', 'A');
 
