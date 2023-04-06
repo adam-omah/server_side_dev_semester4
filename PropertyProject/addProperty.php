@@ -27,12 +27,12 @@
               // Load Success form
               include 'includes/results/addPropertySuccess.inc';
             }else if($ownerSearched){
-              include 'includes/code/selectOwner.inc';
+              include 'includes/forms/selectOwner.inc';
             }else if ($ownerSelected || $propertyAddFailed){
               echo $errorMsg;
               include 'includes/forms/mainPropForm.inc';
             }else{
-              include 'includes/code/findOwners.inc';
+              include 'includes/forms/findOwners.inc';
             }
            ?>
         </div>

@@ -61,7 +61,7 @@ try
         }
           if ($propertyAvaialble)
           {
-            $property = "Eircode: $row[eircode] , beds: $row[bedrooms] , bathrooms: $row[bathrooms] , Monthly Rent: $row[rent], Parking Spaces: $row[parkingSpaces] ,Pets Allowed? $row[petsAllowed], Garden? $row[gardenspace], Owner Occupied? $row[ownerOccupied]";
+            $property = "Eircode: $row[eircode],Type: $row[type], beds: $row[bedrooms], bathrooms: $row[bathrooms], Monthly Rent: $row[rent], Parking Spaces: $row[parkingSpaces], Pets Allowed? $row[petsAllowed], Garden? $row[gardenspace], Owner Occupied? $row[ownerOccupied]";
             $propertyOption = "<option style='white-space: pre-wrap;' value='$propertyId'> $property </option>";
             echo $propertyOption;
             $propertyCount++;

@@ -21,13 +21,13 @@
           if ($ownerUpdated) {
             include 'includes/results/updateOwnerSuccess.inc';
           }else if($ownerSearched){
-            include 'includes/code/selectOwner.inc';
+            include 'includes/forms/selectOwner.inc';
           }else if ($ownerSelected){
             include 'includes/forms/updateOwnerForm.inc';
           }else if($ownerUpdateFailed) {
             include 'includes/forms/updateOwnerForm.inc';
           }else {
-            include 'includes/code/findOwners.inc';
+            include 'includes/forms/findOwners.inc';
           }
          ?>
         </div>

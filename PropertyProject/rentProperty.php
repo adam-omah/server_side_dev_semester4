@@ -28,10 +28,10 @@
             }else if($failedToAddTenant){
               include 'includes/forms/rentPropertyForm.inc';
             }else {
-              include 'includes/code/findProperties.inc';
+              include 'includes/forms/findProperties.inc';
             }
           }else {
-            include 'includes/code/findProperties.inc';
+            include 'includes/forms/findProperties.inc';
           }
          ?>
         </div>

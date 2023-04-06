@@ -21,13 +21,13 @@
           <?php
 
           if($ownerSearched){
-            include 'includes/code/removeOwner.inc';
+            include 'includes/forms/removeOwner.inc';
           }else if ($ownerRemoveFailed){
             include 'includes/results/removeOwnerFailed.inc';
           }else if ($ownerRemoved){
             include 'includes/results/removeOwnerSuccess.inc';
           }else{
-            include 'includes/code/findOwners.inc';
+            include 'includes/forms/findOwners.inc';
           }
 
          ?>
